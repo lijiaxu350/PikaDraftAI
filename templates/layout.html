@@ -1,0 +1,25 @@
+{%load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "UTF-8">
+    <title> PikaDraftAI</title>
+    <link rel = "stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href = "/">Home</a></li>
+            <li><a href="/pokedex/">Pokedex</a></li>
+            <li><a href="/teams/">Teams</a></li>
+            <li><a href="/coach/">AI Coach</a></li>
+            <li><a href="/accounts/login/">Login</a></li>
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

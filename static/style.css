@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'PokemonFont';
+    src: url('/static/Pokemon Solid.ttf') format('truetype');
+}
+h1 {
+    text-align: center;
+    font-family: 'PokemonFont', sans-serif;
+    color: #ffde00;
+    -webkit-text-stroke: 1px #3B4CCA;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+body{
+    background-color: #383737;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 10px 20px;
+    background-color: #cfcfcf;
+    border-radius: 12px;
+    justify-content: center;
+    border: 3px solid black
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    font-family: 'PokemonFont', sans-serif;
+    color: #ffde00;
+    -webkit-text-stroke: 1px #3B4CCA;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+.pokedex-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.pokemon-card {
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.pokemon-card img {
+    width: 96px;
+    height: 96px;
+}
+
+.pokemon-card p {
+    text-transform: capitalize;
+    margin: 8px 0 0;
+    font-weight: bold;
+}

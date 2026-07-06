@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Pokedex</h1>
+<div class="pokedex-grid">
+    {% for pokemon in pokemon_list %}
+        <div class="pokemon-card">
+            <img src ="{{pokemon.sprite_url}}">
+            <p>No.{{pokemon.id}} {{pokemon.name}}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
