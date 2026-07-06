@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<a href="{% url 'teams_home' %}" class="back-button">&larr; Back to Teams</a>
+
+<h1>{{ team.name }}</h1>
+
+<div class="team-slots-grid">
+    {% for slot in team.slots %}
+        <div class="team-slot">
+            {% if slot.pokemon_name %}
+                <a href="{% url 'slot_detail' team.id forloop.counter0 %}">
+                    {{ slot.pokemon_name }}
+                </a>
+            {% else %}
+                <a href="{% url 'choose_pokemon' team.id forloop.counter0 %}" class="empty-slot">
+                    + Empty Slot
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<form method="post" action="{% url 'delete_team' team.id %}" onsubmit="return confirm('Delete {{ team.name }}? This cannot be undone.');">
+    {% csrf_token %}
+    <button type="submit" class="delete-button">Delete Team</button>
+</form>
+{% endblock %}

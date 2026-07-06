@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Choose a Pokémon for {{ team.name }} — Slot {{ slot_index|add:1 }}</h1>
+
+<div class="pokemon-picker-grid">
+    {% for pokemon in pokemon_all %}
+        <form method="post" class="pokemon-picker-form">
+            {% csrf_token %}
+            <input type="hidden" name="pokemon_id" value="{{ pokemon.id }}">
+            <input type="hidden" name="pokemon_name" value="{{ pokemon.name }}">
+            <button type="submit">{{ pokemon.name }}</button>
+        </form>
+    {% endfor %}
+</div>
+{% endblock %}

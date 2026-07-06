@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Teams</h1>
+
+<div class="teams-home-options">
+    <a href="{% url 'create_team' %}" class="option-button">Create New Team</a>
+</div>
+
+<h2>Existing Teams</h2>
+<ul>
+    {% for team in teams %}
+        <li><a href="{% url 'team_detail' team.id %}">{{ team.name }}</a></li>
+    {% empty %}
+        <li>No teams yet — create one above!</li>
+    {% endfor %}
+</ul>
+{% endblock %}

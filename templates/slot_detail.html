@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<a href="{% url 'team_detail' team.id %}" class="back-button">&larr; Back to {{ team.name }}</a>
+
+<h1>{{ slot.pokemon_name }}</h1>
+<img src="{{ pokemon.sprites.front_default }}" alt="{{ slot.pokemon_name }}">
+
+<h3>Base Stats</h3>
+<ul>
+    {% for stat in pokemon.stats %}
+        <li>{{ stat.stat.name }}: {{ stat.base_stat }}</li>
+    {% endfor %}
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+    <label>Level: <input type="number" name="level" min="1" max="100" value="{{ level }}"></label>
+    <label>Nature:
+        <select name="nature">
+            {% for nature_option in natures %}
+                <option value="{{ nature_option }}" {% if nature_option == nature_name %}selected{% endif %}>
+                    {{ nature_option }}
+                </option>
+            {% endfor %}
+        </select>
+    </label>
+    <h3>EVs</h3>
+    <label>HP: <input type="number" name="ev_hp" min="0" max="252" value="{{ slot.ev_hp }}"></label><br>
+    <label>Attack: <input type="number" name="ev_attack" min="0" max="252" value="{{ slot.ev_attack }}"></label><br>
+    <label>Defense: <input type="number" name="ev_defense" min="0" max="252" value="{{ slot.ev_defense }}"></label><br>
+    <label>Sp. Attack: <input type="number" name="ev_sp_attack" min="0" max="252" value="{{ slot.ev_sp_attack }}"></label><br>
+    <label>Sp. Defense: <input type="number" name="ev_sp_defense" min="0" max="252" value="{{ slot.ev_sp_defense }}"></label><br>
+    <label>Speed: <input type="number" name="ev_speed" min="0" max="252" value="{{ slot.ev_speed }}"></label><br>
+    <button type="submit">Save EVs</button>
+</form>
+
+<h3>Final Stats</h3>
+<ul>
+    {% for stat_name, value in final_stats.items %}
+        <li>{{ stat_name }}: {{ value }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

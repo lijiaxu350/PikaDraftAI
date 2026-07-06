@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Create a New Team</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="team_name">Team Name:</label>
+    <input type="text" id="team_name" name="team_name" required>
+    <button type="submit">Create Team</button>
+</form>
+{% endblock %}
