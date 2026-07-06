@@ -20,7 +20,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path("", views.home, name="home"),
+    path("", views.home, name="home"),
     path('pokedex/', include('pokedex.pokemon_urls')),
     path('teams/', include("teams.teams_urls")),
+    path("coach/", include("coach.coach_urls")),
 ]
