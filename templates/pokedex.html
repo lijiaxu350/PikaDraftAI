@@ -1,13 +1,42 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Pokedex</h1>
+<h1>Pokemon Pokedex</h1>
+
+{% if team_id %}
+    <div class="status-msg">
+        <p>Adding a Pokemon to Team (ID: {{ team_id }}). Select one below!</p>
+    </div>
+{% else %}
+    <div class="status-msg">
+        <p>To build a team, go to the <a href="{% url 'team_list' %}">Teams page</a> first and click manage on a team.</p>
+    </div>
+{% endif %}
+
+<div class="search-bar">
+    <form method="get" action="{% url 'pokedex_list' %}">
+        {% if team_id %}
+            <input type="hidden" name="add_to_team" value="{{ team_id }}">
+        {% endif %}
+        <input type="text" name="q" placeholder="Search Pokemon by name..." value="{{ query|default:'' }}">
+        <button type="submit">Search</button>
+        {% if query %}
+            <a href="{% url 'pokedex_list' %}{% if team_id %}?add_to_team={{ team_id }}{% endif %}" class="btn btn-secondary">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
 <div class="pokedex-grid">
     {% for pokemon in pokemon_list %}
         <div class="pokemon-card">
-            <img src ="{{pokemon.sprite_url}}">
-            <p>No.{{pokemon.id}} {{pokemon.name}}</p>
+            <img src="{{ pokemon.sprite_url }}" alt="{{ pokemon.name }}">
+            <p>No.{{ pokemon.id }} {{ pokemon.name|capfirst }}</p>
+            {% if team_id %}
+                <a href="{% url 'add_pokemon_to_team' team_id pokemon.name %}" class="btn btn-primary btn-sm">Add to Team</a>
+            {% endif %}
         </div>
+    {% empty %}
+        <p class="pokedex-empty">No Pokemon found.</p>
     {% endfor %}
 </div>
 {% endblock %}

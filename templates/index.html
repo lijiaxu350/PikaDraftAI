@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1>Welcome to PikaDraftAI!</h1>
+    <p>A simple tool to build your competitive Pokemon team and get expert advice from our AI coach (powered by Gemini).</p>
+    <div class="welcome-btn-wrapper">
+        <a class="btn btn-primary" href="{% url 'team_list' %}">Go to Teams Dashboard &rarr;</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="back-wrapper">
+    <a href="{% url 'team_detail' team.id %}" class="btn btn-secondary">&larr; Back to Team Management</a>
+</div>
+
+<h1>AI Coach Review for "{{ team.name }}"</h1>
+
+<div class="team-summary-list">
+    {% for pokemon in pokemons %}
+        <div class="pokemon-summary-card">
+            <img src="{{ pokemon.sprite_url }}" alt="{{ pokemon.name }}">
+            <p>{{ pokemon.name }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="coach-review-card">
+    <h2>Coach Analysis & Suggestions</h2>
+    <div class="coach-text">
+        {{ review_text|linebreaks }}
+    </div>
+</div>
+{% endblock %}
