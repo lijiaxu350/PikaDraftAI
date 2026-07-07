@@ -1,44 +1,109 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<a href="{% url 'team_detail' team.id %}" class="back-button">&larr; Back to {{ team.name }}</a>
+<div class="back-wrapper">
+    <a href="{% url 'team_detail' team.id %}" class="btn btn-secondary">&larr; Back to {{ team.name }}</a>
+</div>
 
-<h1>{{ slot.pokemon_name }}</h1>
-<img src="{{ pokemon.sprites.front_default }}" alt="{{ slot.pokemon_name }}">
+<div class="slot-container">
+    <!-- Left Column: Pokemon Card Info -->
+    <div class="pokemon-info-card">
+        <div class="card-title-header">
+            <h2>{{ slot.pokemon_name|capfirst }}</h2>
+            <span class="level-badge">Lvl {{ level }}</span>
+        </div>
+        
+        <div class="sprite-container">
+            <img src="{{ pokemon.sprites.front_default }}" alt="{{ slot.pokemon_name }}" class="detail-sprite">
+        </div>
 
-<h3>Base Stats</h3>
-<ul>
-    {% for stat in pokemon.stats %}
-        <li>{{ stat.stat.name }}: {{ stat.base_stat }}</li>
-    {% endfor %}
-</ul>
+        <div class="stats-display-section">
+            <h3>Stats Comparison</h3>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Stat</th>
+                        <th>Base</th>
+                        <th>Final</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stat in pokemon.stats %}
+                        <tr>
+                            <td class="stat-name">{{ stat.stat.name|capfirst }}</td>
+                            <td>{{ stat.base_stat }}</td>
+                            <td class="final-stat-val">
+                                {% for name, val in final_stats.items %}
+                                    {% if name == stat.stat.name %}
+                                        {{ val }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<form method="post">
-    {% csrf_token %}
-    <label>Level: <input type="number" name="level" min="1" max="100" value="{{ level }}"></label>
-    <label>Nature:
-        <select name="nature">
-            {% for nature_option in natures %}
-                <option value="{{ nature_option }}" {% if nature_option == nature_name %}selected{% endif %}>
-                    {{ nature_option }}
-                </option>
-            {% endfor %}
-        </select>
-    </label>
-    <h3>EVs</h3>
-    <label>HP: <input type="number" name="ev_hp" min="0" max="252" value="{{ slot.ev_hp }}"></label><br>
-    <label>Attack: <input type="number" name="ev_attack" min="0" max="252" value="{{ slot.ev_attack }}"></label><br>
-    <label>Defense: <input type="number" name="ev_defense" min="0" max="252" value="{{ slot.ev_defense }}"></label><br>
-    <label>Sp. Attack: <input type="number" name="ev_sp_attack" min="0" max="252" value="{{ slot.ev_sp_attack }}"></label><br>
-    <label>Sp. Defense: <input type="number" name="ev_sp_defense" min="0" max="252" value="{{ slot.ev_sp_defense }}"></label><br>
-    <label>Speed: <input type="number" name="ev_speed" min="0" max="252" value="{{ slot.ev_speed }}"></label><br>
-    <button type="submit">Save EVs</button>
-</form>
+    <!-- Right Column: Settings Form -->
+    <div class="pokemon-settings-card">
+        <h2>Configure Pokémon</h2>
+        <form method="post" class="ev-form">
+            {% csrf_token %}
+            
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="level">Level</label>
+                    <input type="number" id="level" name="level" min="1" max="100" value="{{ level }}" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nature">Nature</label>
+                    <select id="nature" name="nature" class="form-control">
+                        {% for nature_option in natures %}
+                            <option value="{{ nature_option }}" {% if nature_option == nature_name %}selected{% endif %}>
+                                {{ nature_option }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
 
-<h3>Final Stats</h3>
-<ul>
-    {% for stat_name, value in final_stats.items %}
-        <li>{{ stat_name }}: {{ value }}</li>
-    {% endfor %}
-</ul>
+            <h3>Effort Values (EVs)</h3>
+            <p class="helper-text">Max 252 per stat.</p>
+            
+            <div class="ev-sliders">
+                <div class="ev-control">
+                    <span class="ev-label">HP</span>
+                    <input type="number" name="ev_hp" min="0" max="252" value="{{ slot.ev_hp }}" class="ev-input">
+                </div>
+                <div class="ev-control">
+                    <span class="ev-label">Attack</span>
+                    <input type="number" name="ev_attack" min="0" max="252" value="{{ slot.ev_attack }}" class="ev-input">
+                </div>
+                <div class="ev-control">
+                    <span class="ev-label">Defense</span>
+                    <input type="number" name="ev_defense" min="0" max="252" value="{{ slot.ev_defense }}" class="ev-input">
+                </div>
+                <div class="ev-control">
+                    <span class="ev-label">Sp. Attack</span>
+                    <input type="number" name="ev_sp_attack" min="0" max="252" value="{{ slot.ev_sp_attack }}" class="ev-input">
+                </div>
+                <div class="ev-control">
+                    <span class="ev-label">Sp. Defense</span>
+                    <input type="number" name="ev_sp_defense" min="0" max="252" value="{{ slot.ev_sp_defense }}" class="ev-input">
+                </div>
+                <div class="ev-control">
+                    <span class="ev-label">Speed</span>
+                    <input type="number" name="ev_speed" min="0" max="252" value="{{ slot.ev_speed }}" class="ev-input">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-save">Save Configuration</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
