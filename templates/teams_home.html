@@ -8,11 +8,11 @@
 </div>
 
 <h2>Existing Teams</h2>
-<ul>
+<ul class= "teams-grid">
     {% for team in teams %}
-        <li><a href="{% url 'team_detail' team.id %}">{{ team.name }}</a></li>
+        <li class= "team-card"><a href="{% url 'team_detail' team.id %}">{{ team.name }}</a></li>
     {% empty %}
-        <li>No teams yet — create one above!</li>
+        <li class = "no-teams">No teams yet, create one above!</li>
     {% endfor %}
 </ul>
 {% endblock %}

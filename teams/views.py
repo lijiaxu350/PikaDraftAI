@@ -34,6 +34,39 @@ NATURES = {
     "Quirky":  {"boost": None, "lower": None},
 }
 
+ev_key_map = {
+            "hp": "ev_hp",
+            "attack": "ev_attack",
+            "defense": "ev_defense",
+            "special-attack": "ev_sp_attack",
+            "special-defense": "ev_sp_defense",
+            "speed": "ev_speed",
+}
+def calc_final_stats(pokemon, slot):
+    level = slot.get("level", 100)
+    nature_name = slot.get("nature", "Hardy")
+    natures = NATURES[nature_name]
+
+    final_stats = {}
+    for stat in pokemon["stats"]:
+        stat_name = stat["stat"]["name"]
+        base = stat["base_stat"]
+        ev = slot[ev_key_map[stat_name]]
+
+        step1 = ((2 * base + 31 + (ev // 4)) * level) // 100
+        if stat_name == "hp":
+            final_stats[stat_name] = step1 + level + 10
+        else:
+            if stat_name == natures["boost"]:
+                multiplier = 1.1
+            elif stat_name == natures["lower"]:
+                multiplier = 0.9
+            else:
+                multiplier = 1.0
+            final_stats[stat_name] = int((step1 + 5) * multiplier)
+
+    return final_stats
+
 def create_team(request):
     if request.method == "POST":
         team_name = request.POST.get("team_name")
@@ -104,39 +137,14 @@ def slot_detail(request, team_id, slot_index):
         team.slots[slot_index]["ev_speed"] = int(request.POST.get("ev_speed", 0))
         team.slots[slot_index]["level"] = int(request.POST.get("level", 100))
         team.slots[slot_index]["nature"] = request.POST.get("nature", "Hardy")
+        team.slots[slot_index]["final_stats"] = calc_final_stats(pokemon, team.slots[slot_index])
         team.save()
         return redirect("slot_detail", team_id=team.id, slot_index=slot_index)
 
     level = slot.get("level", 100)
     nature_name = slot.get("nature", "Hardy")
-    natures = NATURES[nature_name]
 
-    final_stats = {}
-    for stat in pokemon["stats"]:
-        stat_name = stat["stat"]["name"]
-        base = stat["base_stat"]
-
-        ev_key_map = {
-            "hp": "ev_hp",
-            "attack": "ev_attack",
-            "defense": "ev_defense",
-            "special-attack": "ev_sp_attack",
-            "special-defense": "ev_sp_defense",
-            "speed": "ev_speed",
-        }
-        ev = slot[ev_key_map[stat_name]]
-
-        step1 = ((2 * base + 31 + (ev // 4)) * level) // 100
-        if stat_name == "hp":
-            final_stats[stat_name] = step1 + level + 10
-        else:
-            if stat_name == natures["boost"]:
-                multiplier = 1.1
-            elif stat_name == natures["lower"]:
-                multiplier = 0.9
-            else:
-                multiplier = 1.0
-            final_stats[stat_name] = int((step1 + 5) * multiplier)
+    final_stats = calc_final_stats(pokemon, slot)
 
     return render(request, "slot_detail.html", {
         "team": team,

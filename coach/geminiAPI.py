@@ -5,8 +5,8 @@ from google import genai
 
 load_dotenv()
 
-
-client = genai.Client()
+api_key = os.environ.get("GEMINI_KEY")
+client = genai.Client(api_key = api_key)
 
 
 def Ask_AI(prompt, team):
