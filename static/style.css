@@ -32,8 +32,8 @@ h3, h4 {
     max-width: 900px;
     margin: 30px auto;
     padding: 25px;
-    background: rgba(45, 45, 45, 0.92);
-    border: 3px solid black;
+    background: rgba(0, 99, 138, 0.92);
+    border: 3px solid rgb(128, 128, 128);
     border-radius: 12px;
     color: #ffffff;
     box-sizing: border-box;
@@ -46,10 +46,10 @@ nav ul {
     margin: 20px auto;
     max-width: 900px;
     padding: 10px 20px;
-    background-color: #cfcfcf;
+    background-color: rgba(0, 99, 138, 0.92);
     border-radius: 12px;
     justify-content: center;
-    border: 3px solid black;
+    border: 3px solid rgb(128, 128, 128);
 }
 
 nav li {
@@ -402,4 +402,44 @@ nav a:hover {
     font-size: 11px;
     color: #888;
     margin-top: 2px;
+}
+
+.pokemon-card {
+    background-image: url('/static/pokedexbackground.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 4px solid rgb(34, 203, 255);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.15s ease;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-3px);
+    border-color: #ffde00;
+}
+
+.pokemon-card img {
+    width: 96px;
+    height: 96px;
+}
+
+.pokemon-card p {
+    text-transform: capitalize;
+    margin: 8px 0 0;
+    font-weight: bold;
+    color: #ffde00;
+    -webkit-text-stroke: 0.5px #3B4CCA;
+}
+
+.pokedex-grid{
+     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+    margin-top: 20px;
+    
 }
