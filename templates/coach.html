@@ -1,38 +1,55 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Coach Pikachu</h1>
+<h1>Coach Pikachu's Corner</h1>
 
-<form method="GET" action="{% url 'coach_home' %}" class="team-select-form">
-    <label for="team_id">Select a team:</label>
-    <select name="team_id" id="team_id" onchange="this.form.submit()">
-        <option value="">-- Choose a team --</option>
-        {% for team in teams %}
-            <option value="{{ team.id }}" {% if selected_team.id == team.id %}selected{% endif %}>
-                {{ team.name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
+<div class="card coach-select-card">
+    <form method="GET" action="{% url 'coach_home' %}" class="team-select-form">
+        <label for="team_id" class="select-label">Select a team to analyze:</label>
+        <select name="team_id" id="team_id" onchange="this.form.submit()" class="form-control select-control">
+            <option value="">-- Choose a Team --</option>
+            {% for team in teams %}
+                <option value="{{ team.id }}" {% if selected_team.id == team.id %}selected{% endif %}>
+                    {{ team.name }} ({{ team.slots|length }} Slots)
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
 
 {% if selected_team %}
-    <h2>Summary for your awesome team called "{{ selected_team.name }}"</h2>
+    <div class="coach-results-container">
+        <h2>Team Lineup: {{ selected_team.name }}</h2>
 
-    <div class="team-summary-list">
-        {% for slot in selected_team.slots %}
-            {% if slot.pokemon_name %}
-                <div class="pokemon-summary-card">
-                    <p>{{ slot.pokemon_name }}</p>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-
-     <div class="coach-review-card">
-        <h2>Pikachu's Analysis & Suggestions</h2>
-        <div class="coach-text">
-            {{ feedback|linebreaks }}
+        <div class="team-summary-list">
+            {% for slot in selected_team.slots %}
+                {% if slot.pokemon_name %}
+                    <div class="pokemon-summary-card">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ slot.pokemon_id }}.png" alt="{{ slot.pokemon_name }}" class="summary-sprite" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'">
+                        <p class="summary-name">{{ slot.pokemon_name|capfirst }}</p>
+                    </div>
+                {% else %}
+                    <div class="pokemon-summary-card empty-summary-card">
+                        <div class="empty-summary-slot">?</div>
+                        <p class="summary-name empty-text">Empty</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
+
+        <div class="coach-review-card">
+            <div class="coach-header">
+                <span class="coach-avatar">⚡</span>
+                <h3>Pikachu's Analysis & Suggestions</h3>
+            </div>
+            <div class="coach-text">
+                {{ feedback|linebreaks }}
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="coach-intro-card">
+        <p class="intro-text">Select one of your teams from the dropdown above to have Coach Pikachu analyze your stats, natures, items, and team archetypes!</p>
     </div>
 {% endif %}
 {% endblock %}

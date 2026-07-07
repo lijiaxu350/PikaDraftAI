@@ -1,28 +1,43 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<a href="{% url 'teams_home' %}" class="back-button">&larr; Back to Teams</a>
+<div class="back-wrapper">
+    <a href="{% url 'teams_home' %}" class="btn btn-secondary">&larr; Back to Teams Dashboard</a>
+</div>
 
-<h1>{{ team.name }}</h1>
+<div class="team-detail-header">
+    <h1>{{ team.name }}</h1>
+    <div class="team-actions">
+        <a href="{% url 'coach_home' %}?team_id={{ team.id }}" class="btn btn-primary btn-coach">Ask Coach Pikachu to Review &rarr;</a>
+    </div>
+</div>
 
 <div class="team-slots-grid">
     {% for slot in team.slots %}
-        <div class="team-slot">
+        <div class="team-slot-card">
+            <span class="slot-number">Slot {{ forloop.counter }}</span>
             {% if slot.pokemon_name %}
-                <a href="{% url 'slot_detail' team.id forloop.counter0 %}">
-                    {{ slot.pokemon_name }}
+                <a href="{% url 'slot_detail' team.id forloop.counter0 %}" class="pokemon-slot-link">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ slot.pokemon_id }}.png" alt="{{ slot.pokemon_name }}" class="slot-sprite" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'">
+                    <span class="slot-name">{{ slot.pokemon_name|capfirst }}</span>
+                    <span class="slot-edit-label">Edit EVs & Stats</span>
                 </a>
             {% else %}
-                <a href="{% url 'choose_pokemon' team.id forloop.counter0 %}" class="empty-slot">
-                    + Empty Slot
+                <a href="{% url 'choose_pokemon' team.id forloop.counter0 %}" class="empty-slot-card-link">
+                    <div class="empty-slot-content">
+                        <span class="plus-icon">+</span>
+                        <span>Choose Pokémon</span>
+                    </div>
                 </a>
             {% endif %}
         </div>
     {% endfor %}
 </div>
 
-<form method="post" action="{% url 'delete_team' team.id %}" onsubmit="return confirm('Delete {{ team.name }}? This cannot be undone.');">
-    {% csrf_token %}
-    <button type="submit" class="delete-button">Delete Team</button>
-</form>
+<div class="delete-team-section">
+    <form method="post" action="{% url 'delete_team' team.id %}" onsubmit="return confirm('Delete {{ team.name }}? This cannot be undone.');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Team</button>
+    </form>
+</div>
 {% endblock %}

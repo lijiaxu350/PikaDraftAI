@@ -1,12 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Create a New Team</h1>
+<div class="back-wrapper">
+    <a href="{% url 'teams_home' %}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
 
-<form method="post">
-    {% csrf_token %}
-    <label for="team_name">Team Name:</label>
-    <input type="text" id="team_name" name="team_name" required>
-    <button type="submit">Create Team</button>
-</form>
+<div class="create-team-card card">
+    <h1>Create a New Team</h1>
+    <p class="create-team-desc">Enter a name for your competitive team. We will set up 6 empty slots for you to customize.</p>
+    
+    <form method="post" class="create-team-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="team_name" class="label-control">Team Name</label>
+            <input type="text" id="team_name" name="team_name" placeholder="e.g. VGC Series 1 Championship..." required class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary btn-submit-team">Create Team &rarr;</button>
+    </form>
+</div>
 {% endblock %}

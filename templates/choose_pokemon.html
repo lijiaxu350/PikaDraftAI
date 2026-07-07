@@ -1,16 +1,47 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Choose a Pokémon for {{ team.name }} — Slot {{ slot_index|add:1 }}</h1>
+<div class="back-wrapper">
+    <a href="{% url 'team_detail' team.id %}" class="btn btn-secondary">&larr; Back to {{ team.name }}</a>
+</div>
+
+<h1>Choose a Pokémon</h1>
+<h2 class="sub-heading">Team: {{ team.name }} — Slot {{ slot_index|add:1 }}</h2>
+
+<div class="search-bar">
+    <input type="text" id="poke-search" placeholder="Search Pokémon by name..." onkeyup="filterPokemon()">
+</div>
 
 <div class="pokemon-picker-grid">
     {% for pokemon in pokemon_all %}
-        <form method="post" class="pokemon-picker-form">
-            {% csrf_token %}
-            <input type="hidden" name="pokemon_id" value="{{ pokemon.id }}">
-            <input type="hidden" name="pokemon_name" value="{{ pokemon.name }}">
-            <button type="submit">{{ pokemon.name }}</button>
-        </form>
+        <div class="pokemon-picker-card" data-name="{{ pokemon.name }}">
+            <form method="post" class="pokemon-picker-form">
+                {% csrf_token %}
+                <input type="hidden" name="pokemon_id" value="{{ pokemon.id }}">
+                <input type="hidden" name="pokemon_name" value="{{ pokemon.name }}">
+                <button type="submit" class="picker-btn">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png" alt="{{ pokemon.name }}" class="picker-sprite" onerror="this.style.display='none'">
+                    <span class="picker-name">{{ pokemon.name|capfirst }}</span>
+                </button>
+            </form>
+        </div>
     {% endfor %}
 </div>
+
+<script>
+function filterPokemon() {
+    var input = document.getElementById('poke-search');
+    var filter = input.value.toLowerCase().trim();
+    var cards = document.getElementsByClassName('pokemon-picker-card');
+    
+    for (var i = 0; i < cards.length; i++) {
+        var name = cards[i].getAttribute('data-name');
+        if (name.indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
 {% endblock %}

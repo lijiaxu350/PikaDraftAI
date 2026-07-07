@@ -1,18 +1,44 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Teams</h1>
-
-<div class="teams-home-options">
-    <a href="{% url 'create_team' %}" class="option-button">Create New Team</a>
+<div class="dashboard-header">
+    <h1>Your Pokémon Teams</h1>
+    <a href="{% url 'create_team' %}" class="btn btn-primary btn-create-team">+ Create New Team</a>
 </div>
 
-<h2>Existing Teams</h2>
-<ul class= "teams-grid">
-    {% for team in teams %}
-        <li class= "team-card"><a href="{% url 'team_detail' team.id %}">{{ team.name }}</a></li>
-    {% empty %}
-        <li class = "no-teams">No teams yet, create one above!</li>
-    {% endfor %}
-</ul>
+<div class="teams-container">
+    <div class="team-list-grid">
+        {% for team in teams %}
+            <div class="team-dashboard-card">
+                <div class="team-card-header">
+                    <h3>{{ team.name }}</h3>
+                    <span class="created-date">Created on {{ team.created_at }}</span>
+                </div>
+                
+                <!-- Display team sprites summary -->
+                <div class="team-sprites-summary">
+                    {% for slot in team.slots %}
+                        {% if slot.pokemon_name %}
+                            <div class="mini-sprite-wrapper" title="{{ slot.pokemon_name|capfirst }}">
+                                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ slot.pokemon_id }}.png" alt="{{ slot.pokemon_name }}" class="mini-sprite">
+                            </div>
+                        {% else %}
+                            <div class="mini-sprite-wrapper empty-mini-sprite" title="Empty Slot">
+                                <span>?</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div class="team-card-actions">
+                    <a href="{% url 'team_detail' team.id %}" class="btn btn-secondary btn-manage">Manage Team &rarr;</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="no-teams-card">
+                <p>No teams built yet. Click the "Create New Team" button above to get started!</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
