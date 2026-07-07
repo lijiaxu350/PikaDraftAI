@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="login-card">
+    <h2>Register Account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="error-msg">
+                <p>Please check the errors below.</p>
+            </div>
+        {% endif %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="helper-text">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <div class="btn-save-container">
+            <button type="submit" class="btn btn-primary btn-block">Register Account</button>
+        </div>
+    </form>
+    <p class="auth-helper-text">
+        Already have an account? <a href="{% url 'login' %}">Login here</a>
+    </p>
+</div>
+{% endblock %}

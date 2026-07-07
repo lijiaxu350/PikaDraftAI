@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from teams import views as team_views
 from . import views
 
 urlpatterns = [
@@ -24,4 +26,7 @@ urlpatterns = [
     path('pokedex/', include('pokedex.pokemon_urls')),
     path('teams/', include("teams.teams_urls")),
     path("coach/", include("coach.coach_urls")),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('register/', team_views.register, name='register'),
 ]
