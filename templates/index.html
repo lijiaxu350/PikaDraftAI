@@ -1,11 +1,24 @@
 {% extends "layout.html" %}
+{% load static %}
 
 {% block content %}
 <div class="welcome-section">
     <h1>Welcome to PikaDraftAI!</h1>
-    <p>A simple tool to build your competitive Pokemon team and get expert advice from our AI coach (powered by Gemini).</p>
-    <div class="welcome-btn-wrapper">
-        <a class="btn btn-primary" href="{% url 'teams_home' %}">Go to Teams Dashboard &rarr;</a>
+    <p>Build your competitive Pokémon team with PikaDraftAI and get expert insights from our AI coach, powered by Gemini.</p>
+    <div class="preview-columns">
+      <div class ="preview-col">
+        <a class="btn btn-primary" href="{% url 'teams_home' %}">Teams Dashboard &rarr;</a>
+        <a  href="{% url 'teams_home' %}">  
+          <img class="preview-image" src="{% static 'team_preview.png' %}" alt = "Teams Dashboard Preview">
+      ``</a>
+        </div>
+      <div class = "preview-col">
+        <a class = "btn btn-secondary" href = "{% url 'coach_home' %}">Ask the AI Coach &rarr;</a>
+        <a href="{% url 'coach_home' %}">
+          <img class="preview-image" src = "{% static 'coach_preview.png' %}" alt = "AI Coach Preview">
+        </a>
+      </div>
     </div>
 </div>
+
 {% endblock %}
