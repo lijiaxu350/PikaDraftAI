@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from teams.models import Team
 from .geminiAPI import Ask_AI
 import json
+import markdown
 
 # Create your views here.
 def coach_home(request):
@@ -14,7 +15,7 @@ def coach_home(request):
         selected = get_object_or_404(Team, id = team_id)
         team_json = json.dumps(selected.slots)
         try:
-            feedback = Ask_AI(
+            raw_feedback = Ask_AI(
                 "You are a professional Pokemon VGC champion for 2v2 battles, the current set is Pokemon Champions M-4. " \
                 "Here is my team, your job is to tell me:" \
                 "1. What my strengths and weaknesses are, " \
@@ -26,7 +27,8 @@ def coach_home(request):
                 "8. IMPORTANT: MAKE SURE YOU ARE GIVING RESPONSES BASED ON POKEMONS IN THE POKEMON CHAMPIONS FORMAT, NOT GENERAL VGC. IF THE GIVEN TEAM HAS POKEMON OUTSIDE THE FORMAT" \
                 "GIVE A RESPONSE, BUT NOTE THAT THAT SPECIFIC POKEMON IS OUTSIDE THE FORMAT AND TRY TO SUB IN A POKEMON IN THE FORMAT."
                 "9. Keep the response under 500 words.", team_json)
-        except Exception as e:
+            feedback = markdown.markdown(raw_feedback, extension=['extra', 'nl2br'])
+        except Exception as e:   
             feedback = "Pikachu's brain is currently on high demand, please try again in a moment."
     return render(request, "coach.html", {
         "teams": teams,
