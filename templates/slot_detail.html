@@ -68,8 +68,31 @@
                         {% endfor %}
                     </select>
                 </div>
-            </div>
 
+                <div class="form-group">
+                    <label for="ability">Ability</label>
+                    <select id="ability" name="ability" class="form-control">
+                        {% for ability_option in abilities %}
+                            <option value="{{ ability_option }}" {% if ability_option == ability_name %}selected{% endif %}>
+                                {{ ability_option|capfirst }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="held_item">Held Item</label>
+                    <select id="held_item" name="held_item" class="form-control">
+                        <option value="">-- None --</option>
+                        {% for item_option in items %}
+                            <option value="{{ item_option }}" {% if item_option == held_item %}selected{% endif %}>
+                                {{ item_option|title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
             <h3>Effort Values (EVs)</h3>
             <p class="helper-text">Max 252 per stat.</p>
             
@@ -99,7 +122,54 @@
                     <input type="number" name="ev_speed" min="0" max="252" value="{{ slot.ev_speed }}" class="ev-input">
                 </div>
             </div>
-
+            <h3>Moves</h3>
+            <div class="moves-grid">
+                <div class="form-group">
+                    <label for="move_1">Move 1</label>
+                    <select id="move_1" name="move_1" class="form-control">
+                        <option value="">-- None --</option>
+                        {% for move_option in moves %}
+                            <option value="{{ move_option }}" {% if move_option == current_moves.0 %}selected{% endif %}>
+                                {{ move_option|capfirst }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="move_2">Move 2</label>
+                    <select id="move_2" name="move_2" class="form-control">
+                        <option value="">-- None --</option>
+                        {% for move_option in moves %}
+                            <option value="{{ move_option }}" {% if move_option == current_moves.1 %}selected{% endif %}>
+                                {{ move_option|capfirst }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="move_3">Move 3</label>
+                    <select id="move_3" name="move_3" class="form-control">
+                        <option value="">-- None --</option>
+                        {% for move_option in moves %}
+                            <option value="{{ move_option }}" {% if move_option == current_moves.2 %}selected{% endif %}>
+                                {{ move_option|capfirst }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="move_4">Move 4</label>
+                    <select id="move_4" name="move_4" class="form-control">
+                        <option value="">-- None --</option>
+                        {% for move_option in moves %}
+                            <option value="{{ move_option }}" {% if move_option == current_moves.3 %}selected{% endif %}>
+                                {{ move_option|capfirst }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary btn-save">Save Configuration</button>
             </div>
