@@ -119,3 +119,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Redirect users to the teams home dashboard after successful login
+LOGIN_REDIRECT_URL = 'teams_home'
