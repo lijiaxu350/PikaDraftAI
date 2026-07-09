@@ -25,7 +25,8 @@ def coach_home(request):
                 "5. Pay attention to the HELD ITEMS, MOVES, NATURES, and ABILITIES the pokemons have. " \
                 "7. Give advice on who to BENCH unless for a specific pokemon or matchup." \
                 "8. IMPORTANT: MAKE SURE YOU ARE GIVING RESPONSES BASED ON POKEMONS IN THE POKEMON CHAMPIONS FORMAT, NOT GENERAL VGC. IF THE GIVEN TEAM HAS POKEMON OUTSIDE THE FORMAT" \
-                "GIVE A RESPONSE, BUT NOTE THAT THAT SPECIFIC POKEMON IS OUTSIDE THE FORMAT AND TRY TO SUB IN A POKEMON IN THE FORMAT."
+                "GIVE A RESPONSE, BUT NOTE THAT THAT SPECIFIC POKEMON IS OUTSIDE THE FORMAT AND TRY TO SUB IN A POKEMON IN THE FORMAT." \
+                "If the given team is trash and has completely off META pokemon and unevolved pokemon, become super mean and make fun of the team for how bad it is."
                 "9. Keep the response under 500 words.", team_json)
             feedback = markdown.markdown(raw_feedback, extension=['extra', 'nl2br'])
         except Exception as e:   

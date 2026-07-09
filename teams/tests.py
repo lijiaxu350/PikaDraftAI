@@ -4,16 +4,16 @@ from .models import Team
 
 class TeamBuilderTests(TestCase):
 
-    # 1. Test teams home page loading
+    # test teams home page loading
     def test_teams_home_page_status(self):
         response = self.client.get(reverse('teams_home'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'teams_home.html')
 
-    # 2. Test creating a new team inserts default 6 empty slots into DB
+    #  test creating a new team inserts default 6 empty slots into DB
     def test_team_creation_initializes_empty_slots(self):
         response = self.client.post(reverse('create_team'), {'team_name': 'My VGC Team'})
-        self.assertEqual(response.status_code, 302) # Redirects to detail page
+        self.assertEqual(response.status_code, 302) # should go to details page
         
         team = Team.objects.first()
         self.assertIsNotNone(team)
