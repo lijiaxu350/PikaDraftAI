@@ -573,3 +573,20 @@ nav a:hover {
         grid-template-columns: 1fr;
     }
 }
+
+.nav-logout-btn {
+    background: none;
+    border: none;
+    color: #ffde00;
+    font-family: 'PokemonFont', sans-serif;
+    -webkit-text-stroke: 1px #3B4CCA;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.nav-logout-btn:hover {
+    text-decoration: underline;
+}
