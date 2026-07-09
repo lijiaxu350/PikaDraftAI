@@ -17,13 +17,13 @@
         <div class="team-slot-card">
             <span class="slot-number">Slot {{ forloop.counter }}</span>
             {% if slot.pokemon_name %}
-                <a href="{% url 'slot_detail' team.id forloop.counter0 %}" class="pokemon-slot-link">
+                <a href="{% url 'slot_detail' team.name forloop.counter0 %}" class="pokemon-slot-link">
                     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ slot.pokemon_id }}.png" alt="{{ slot.pokemon_name }}" class="slot-sprite" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'">
                     <span class="slot-name">{{ slot.pokemon_name|capfirst }}</span>
                     <span class="slot-edit-label">Edit EVs & Stats</span>
                 </a>
             {% else %}
-                <a href="{% url 'choose_pokemon' team.id forloop.counter0 %}" class="empty-slot-card-link">
+                <a href="{% url 'choose_pokemon' team.name forloop.counter0 %}" class="empty-slot-card-link">
                     <div class="empty-slot-content">
                         <span class="plus-icon">+</span>
                         <span>Choose Pokémon</span>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="delete-team-section">
-    <form method="post" action="{% url 'delete_team' team.id %}" onsubmit="return confirm('Delete {{ team.name }}? This cannot be undone.');">
+    <form method="post" action="{% url 'delete_team' team.name %}" onsubmit="return confirm('Delete {{ team.name }}? This cannot be undone.');">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Delete Team</button>
     </form>

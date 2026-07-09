@@ -229,7 +229,7 @@ def create_team(request):
                 "ev_speed": 0}
                 )
         new_team = Team.objects.create(name=team_name, slots = empty_slots)
-        return redirect("team_detail", team_id = new_team.id)
+        return redirect("team_detail", team_name = new_team.name)
     
     return render(request, "create_team.html")
 
@@ -237,12 +237,12 @@ def teams_home(request):
     teams = Team.objects.all()
     return render(request, "teams_home.html", {"teams": teams})
 
-def team_detail(request, team_id):
-    team = get_object_or_404(Team, id = team_id)
+def team_detail(request, team_name):
+    team = get_object_or_404(Team, name = team_name)
     return render(request, "team_detail.html", {"team": team})
 
-def choose_pokemon(request, team_id, slot_index):
-    team = get_object_or_404(Team, id=team_id)
+def choose_pokemon(request, team_name, slot_index):
+    team = get_object_or_404(Team, name = team_name)
     pokemon_all = get_all_pokemon()
 
     if request.method == "POST":
@@ -253,24 +253,24 @@ def choose_pokemon(request, team_id, slot_index):
         team.slots[slot_index]["pokemon_name"] = pokemon_name
         team.save()
 
-        return redirect("team_detail", team_id=team.id)
+        return redirect("team_detail", team_name = team.name)
     
     for pokemon in pokemon_all:
         pokemon["id"] = pokemon["url"].rstrip("/").split("/")[-1]
 
     return render(request, "choose_pokemon.html", {"team": team, "pokemon_all": pokemon_all, "slot_index": slot_index})
 
-def delete_team(request, team_id):
-    team = get_object_or_404(Team, id=team_id)
+def delete_team(request, team_name):
+    team = get_object_or_404(Team, name =team_name)
 
     if request.method == "POST":
         team.delete()
         return redirect("teams_home")
 
-    return redirect("team_detail", team_id=team.id)
+    return redirect("team_detail", team_name = team.name)
 
-def slot_detail(request, team_id, slot_index):
-    team = get_object_or_404(Team, id=team_id)
+def slot_detail(request, team_name, slot_index):
+    team = get_object_or_404(Team, name = team_name)
     slot = team.slots[slot_index]
     pokemon = get_pokemon(slot["pokemon_name"])
 
@@ -309,7 +309,7 @@ def slot_detail(request, team_id, slot_index):
 
         team.slots[slot_index]["final_stats"] = calc_final_stats(pokemon, team.slots[slot_index])
         team.save()
-        return redirect("slot_detail", team_id=team.id, slot_index=slot_index)
+        return redirect("slot_detail", team_name=team.name, slot_index=slot_index)
     
     level = slot.get("level", 100)
     nature_name = slot.get("nature", "Hardy")
